@@ -21,12 +21,21 @@ format:
 ```{r}
 #|label: Packages
 
+#Tidyverse Coding Styling
 library(tidyverse)
 library(dbplyr)
 
 ```
 
 ## Data Overview
+
+```{r}
+#|label: Importing Data
+
+NFL_raw <- read.csv("nfl-team-statistics (1).csv")
+
+```
+
 
 
 
