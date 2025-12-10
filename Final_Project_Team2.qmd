@@ -77,6 +77,232 @@ NFL_Conf <- bind_rows(NFC_East_data, NFC_North_data, NFC_South_data, NFC_West_da
 
 ```
 
+```{r, fig.height=10}
+
+NFL_Clean%>%
+  filter(Conf == "NFC")%>%
+  group_by(Div)%>%
+ggplot(
+    mapping = aes(
+      x = season,
+      y = wins,
+      color= team
+    )
+  ) +
+  geom_line(linewidth = 1) +
+  facet_wrap(~Div) +
+  labs(#Step 4: add labels and title to the data visualization and create the colors for the lines----
+    x = "Year",
+    y = "Wins",
+    color = "team",
+    shape = "team",
+    title = "NFC teams and their wins from year to year"
+  ) +
+  scale_color_discrete(
+  )+
+  theme_bw() +
+  theme(
+    legend.position = "bottom"
+  )
+
+NFL_Clean%>%
+  filter(Conf == "NFC")%>%
+  group_by(Div)%>%
+ggplot(
+    mapping = aes(
+      x = season,
+      y = wins,
+      color = team,
+      linetype = team
+    )
+  ) +
+  geom_line(linewidth = 1) +
+  facet_wrap(~Div) +
+  labs(#Step 4: add labels and title to the data visualization and create the colors for the lines----
+    x = "Year",
+    y = "Wins",
+    color = "team",
+    linetype = "team",
+    title = "NFC teams and their wins from year to year"
+  ) +
+  scale_color_manual(
+    values = c("#000000", "#E69F00", "#56B4E9","#009E73", "#F0E442", "#0072B2","#D55E00", "#CC79A7", "#000000", "#E69F00", "#56B4E9","#009E73", "#F0E442", "#0072B2","#D55E00", "#CC79A7")
+  )+
+  scale_linetype_manual(
+    values = c(rep("solid",8), rep("dashed",8))
+  )+
+  theme_bw() +
+  theme(
+    legend.position = "bottom"
+  )
+
+
+NFL_Clean%>%
+  filter(Conf == "AFC")%>%
+  filter(Div %in% c("East", "West"))%>%
+  group_by(Div)%>%
+ggplot(
+    mapping = aes(
+      x = season,
+      y = wins,
+      color = team
+    )
+  ) +
+  geom_line(linewidth = 1) +
+  facet_wrap(~Div) +
+  labs(#Step 4: add labels and title to the data visualization and create the colors for the lines----
+    x = "Year",
+    y = "Wins",
+    color = "team",
+    shape = "team",
+    title = "AFC teams and their wins from year to year"
+  ) +
+  scale_color_discrete()+
+  theme_bw() +
+  theme(
+    legend.position = "bottom"
+  )
+
+NFL_Clean%>%
+  filter(Conf == "AFC")%>%
+  filter(Div %in% c("North", "South"))%>%
+  group_by(Div)%>%
+ggplot(
+    mapping = aes(
+      x = season,
+      y = wins,
+      color = team
+    )
+  ) +
+  geom_line(linewidth = 1) +
+  facet_wrap(~Div) +
+  labs(#Step 4: add labels and title to the data visualization and create the colors for the lines----
+    x = "Year",
+    y = "Wins",
+    color = "team",
+    shape = "team",
+    title = "AFC teams and their wins from year to year"
+  ) +
+  scale_color_discrete()+
+  theme_bw() +
+  theme(
+    legend.position = "bottom"
+  )
+
+```
+
+```{r, fig.height=2.5}
+
+NFL_Clean%>%
+  filter(Conf == "NFC")%>%
+  filter(Div %in% c("East", "West"))%>%
+ggplot(
+    mapping = aes(
+      x = season,
+      y = offense_total_yards_gained_pass,
+      color = team
+    )
+  ) +
+  geom_line(linewidth = 1) +
+  facet_wrap(~Div) +
+  labs(#Step 4: add labels and title to the data visualization and create the colors for the lines----
+    x = "Year",
+    y = "Total yards gained by pass on defense",
+    color = "team",
+    shape = "team",
+    title = "NFC teams and their wins from year to year"
+  ) +
+  scale_color_manual(
+    values = c("#332288", "#117733", "#44AA99","#88CCEE", "#DDCC77", "#AA4499","#800080", "#FFA500" )
+  )+
+  theme_bw() +
+  theme(
+    legend.position = "bottom"
+  )
+
+NFL_Clean%>%
+  filter(Conf == "NFC")%>%
+  filter(Div %in% c("North", "South"))%>%
+  group_by(Div)%>%
+ggplot(
+    mapping = aes(
+      x = season,
+      y = offense_total_yards_gained_pass,
+      color = team
+    )
+  ) +
+  geom_line(linewidth = 1) +
+  facet_wrap(~Div) +
+  labs(#Step 4: add labels and title to the data visualization and create the colors for the lines----
+    x = "Year",
+    y = "Total yards gained by pass on defense",
+    color = "team",
+    shape = "team",
+    title = "NFC teams and their wins from year to year"
+  ) +
+  scale_color_manual(
+    values = c("#332288", "#117733", "#44AA99","#88CCEE", "#DDCC77", "#AA4499","#800080", "#FFA500" )
+  )+
+  theme_bw() +
+  theme(
+    legend.position = "bottom"
+  )
+
+
+NFL_Clean%>%
+  filter(Conf == "AFC")%>%
+  filter(Div %in% c("East", "West"))%>%
+  group_by(Div)%>%
+ggplot(
+    mapping = aes(
+      x = season,
+      y = offense_total_yards_gained_pass,
+      color = team
+    )
+  ) +
+  geom_line(linewidth = 1) +
+  facet_wrap(~Div) +
+  labs(#Step 4: add labels and title to the data visualization and create the colors for the lines----
+    x = "Year",
+    y = "Total yards gained by pass on defense",
+    color = "team",
+    shape = "team",
+    title = "AFC teams and their wins from year to year"
+  ) +
+  scale_color_discrete()+
+  theme_bw() +
+  theme(
+    legend.position = "bottom"
+  )
+
+NFL_Clean%>%
+  filter(Conf == "AFC")%>%
+  filter(Div %in% c("North", "South"))%>%
+  group_by(Div)%>%
+ggplot(
+    mapping = aes(
+      x = season,
+      y = offense_total_yards_gained_pass,
+      color = team
+    )
+  ) +
+  geom_line(linewidth = 1) +
+  facet_wrap(~Div) +
+  labs(#Step 4: add labels and title to the data visualization and create the colors for the lines----
+    x = "Year",
+    y = "Total yards gained by pass on defense",
+    color = "team",
+    shape = "team",
+    title = "AFC teams and their wins from year to year"
+  ) +
+  scale_color_discrete()+
+  theme_bw() +
+  theme(
+    legend.position = "bottom"
+  )
+
+```
+
 {{< pagebreak >}}
 Code Appendix
 ``` {r codeAppend, ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
