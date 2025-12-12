@@ -88,6 +88,7 @@ NFL_Clean <- bind_rows(NFC_East_data, NFC_North_data, NFC_South_data, NFC_West_d
 
 ```
 
+## Offensive and Defensive Association with Wins
 
 ```{r, fig.height=5, fig.width=10}
 #|label: fig-Win-association
@@ -224,6 +225,21 @@ NFL_O_D <- NFL_Clean %>%
     Mean_O_run_yards = mean(offense_total_yards_gained_run, na.rm = TRUE),
     Mean_D_pass_yards = mean(defense_total_yards_gained_pass, na.rm = TRUE),
     Mean_D_run_yards = mean(defense_total_yards_gained_run, na.rm = TRUE)
+  ) 
+    
+    names(NFL_O_D) <- c(
+    "Teams",
+    "Average Wins",
+    "Mean Offensive Pass Yards",
+    "Mean Offense Run Yards",
+    "Mean Defensive Pass Yards",
+    "Mean Defensive Run Yards"
+    )
+  
+NFL_O_D %>%
+  kable(
+    booktabs = TRUE,
+    align = c("l", rep("c",10)))
 
 ```
 
@@ -296,22 +312,7 @@ winsTable %>%
 
 ```
 
-```{r}
-names(NFL_O_D) <- c(
-    "Teams",
-    "Average Wins",
-    "Mean Offensive Pass Yards",
-    "Mean Offense Run Yards",
-    "Mean Defensive Pass Yards",
-    "Mean Defensive Run Yards"
-    )
-  
-NFL_O_D %>%
-  kable(
-    booktabs = TRUE,
-    align = c("l", rep("c",10)))
-
-```
+## Team Efficiency
 
 
 
