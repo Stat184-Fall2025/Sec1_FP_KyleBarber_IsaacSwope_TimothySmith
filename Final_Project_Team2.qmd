@@ -84,11 +84,9 @@ NFL_Clean <- bind_rows(NFC_East_data, NFC_North_data, NFC_South_data, NFC_West_d
 
 ## Effeciency Scatterplot
 ```{r}
-#|label: fig-effeciency-scatter-plot
-#|fig-cap:
-#|fig-alt:
-#|fig-pos: "H"
-# Raw graph code
+#| label: fig-effeciency-scatter-plot
+#| fig-cap: NFL Team Effeciency Scatter Plot
+#| fig-alt:
 NFL_Clean_3 <- NFL_Clean %>%
   select(team, Conf, score_differential, points_scored,
          points_allowed, wins, losses) %>%
@@ -103,57 +101,83 @@ NFL_Clean_3 <- NFL_Clean %>%
   )
 NFL_Clean_3$logo <- paste0("Logos/", NFL_Clean_3$team, ".png")
 
-slope_and_intercept <- lm(points_allowed ~ points_scored, data = NFL_Clean_3)
-
 ggplot(NFL_Clean_3) +
   aes(x = points_allowed, y = points_scored) +
   geom_point(size = 0.1) +
-  #geom_image(aes(image = logo)) +
-  scale_color_hue(direction = 1) +
+  geom_image(aes(image = logo)) +
   labs(
-    title = "Team Effeciency",
     x = "Points Allowed (per season)",
     y = "Points Scored (per season)"
   ) +
-  #Need to fix slope and intercept
   geom_abline(slope = 1, intercept = 0) +
   theme_minimal() +
   facet_wrap(vars(Conf))
+
 ```
 
-## Effeciency Tables
+## AFC Effeciency Table
 ```{r}
-#|label: tbl-effeciency-scatter-plot
-#|fig-cap:
-#|fig-alt:
-#|fig-pos: "H"
+#| label: tbl-effeciency-scatter-plot-AFC
+#| tbl-cap: "AFC Effeciency tables"
+#| fig-alt:
 AFC_table <- NFL_Clean_3%>%
   filter(Conf == 'AFC')%>%
-  select(team, point_differential, wins, losses)%>%
+  select(team, point_differential, wins, losses, logo)%>%
   mutate(
     point_differential = round(point_differential, digits = 4),
     wins = round(wins, digits = 4),
-    losses = round(losses, digits = 4)
+    losses = round(losses, digits = 4),
+    image = ""
   )%>%
-  arrange(desc(wins))%>%
-  kable(caption = "AFC Team Effeciency",
-        booktabs = TRUE,
-        align = c("l", rep("c", 10)))
+  arrange(desc(wins)) %>%
+  rename(
+    Team = team,
+    `Average Point Differential` = point_differential,
+    `Win Rate` = wins,
+    `Loss Rate` = losses
+  )
 
-NFC_table <- NFL_Clean_3%>%
-  filter(Conf == 'NFC')%>%
-  select(team, point_differential, wins, losses)%>%
-  mutate(
-    point_differential = round(point_differential, digits = 4),
-    wins = round(wins, digits = 4),
-    losses = round(losses, digits = 4)
-  )%>%
-  arrange(desc(wins))%>%
-  kable(caption = "NFC Team Effeciency",
-        booktabs = TRUE,
-        align = c("l", rep("c", 10)))
+AFC_table %>%
+  select(Team, image, `Average Point Differential`, `Win Rate`, `Loss Rate`) %>%
+  kable(booktabs = TRUE,
+        align = c("l", rep("c", 10)))%>%
+  kable_styling()%>%
+  kable_paper(full_width = T)%>%
+  column_spec(2, image = spec_image(path = AFC_table$logo, 50, 50))
 
 ```
+## AFC Effeciency Table
+```{r}
+#| label: tbl-effeciency-scatter-plot-NFC
+#| tbl-cap: "NFC Effeciency tables"
+#| fig-alt:
+NFC_table <- NFL_Clean_3%>%
+  filter(Conf == 'NFC')%>%
+  select(team, point_differential, wins, losses, logo)%>%
+  mutate(
+    point_differential = round(point_differential, digits = 4),
+    wins = round(wins, digits = 4),
+    losses = round(losses, digits = 4),
+    image = ""
+  )%>%
+  arrange(desc(wins)) %>%
+  rename(
+    Team = team,
+    `Average Point Differential` = point_differential,
+    `Win Rate` = wins,
+    `Loss Rate` = losses
+  )
+
+NFC_table %>%
+  select(Team, image, `Average Point Differential`, `Win Rate`, `Loss Rate`) %>%
+  kable(booktabs = TRUE,
+        align = c("l", rep("c", 10)))%>%
+  kable_styling()%>%
+  kable_paper(full_width = T)%>%
+  column_spec(2, image = spec_image(path = AFC_table$logo, 50, 50))
+
+```
+
 
 {{< pagebreak >}}
 Code Appendix
