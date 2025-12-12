@@ -1,10 +1,13 @@
-# Project Title
+# NFL Data Analysis
 
-Write a 1-2 sentences that quickly and clearly convey what your repo is for.
+Do various data analysis over the years 1999-2022 with multiple statistics for every NFL Team.
 
 ## Overview
 
-Expand on those introductory sentences with a brief but informative description of your project's purpose and goals. This section should help visitors decide whether they should dig deeper into your repo/project.
+In our Quarto document we show a scatter plot showing a team's efficiency, a bar graph showing each Teams total wins, and 4 scatter plots each
+analyzing how a different statistic influences team wins. Our Quarto also includes 3 different tables. One table that describes team's wins with multiple statistics.
+One table describing each teams simple arithmetic mean for wins and defensive and offensive yards. The last table include team's win rate, loss rate, and average
+point differential.
 
 ### Interesting Insight (Optional)
 
@@ -16,7 +19,7 @@ Be sure to list where you got any data used within the project. Be sure to ackno
 
 ## Current Plan
 
-Provide some information about what you intend to doe with the project. You can additionally refer the visitor to your detailed plan document.
+See plan doc.
 
 ## Repo Structure
 
