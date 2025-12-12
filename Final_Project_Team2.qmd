@@ -23,6 +23,7 @@ format:
 
 #Tidyverse Coding Styling
 
+
 library(tidyverse)
 library(dbplyr)
 library(kableExtra)
@@ -74,9 +75,13 @@ AFC_South_data <- NFL_raw %>%
   filter(team %in% c("JAX", "IND", "HOU", "TEN"))%>%
   mutate(Conf = 'AFC_South')
 
-NFL_Conf <- bind_rows(NFC_East_data, NFC_North_data, NFC_South_data, NFC_West_data, AFC_East_data, AFC_South_data, AFC_North_data, AFC_West_data) %>%
-  arrange(season, team)
-
+NFL_Clean <- bind_rows(NFC_East_data, NFC_North_data, NFC_South_data, NFC_West_data, AFC_East_data, AFC_South_data, AFC_North_data, AFC_West_data) %>%
+  arrange(season, team)%>%
+    separate_wider_delim(
+    cols = 'Conf',
+    delim = '_',
+    names = c('Conf', 'Div')
+  )
 
 ```
 
