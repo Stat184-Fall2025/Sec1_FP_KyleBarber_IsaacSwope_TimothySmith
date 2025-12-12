@@ -14,20 +14,21 @@ format:
   pdf:
     embed-resources: true
     geometry: margin=1in
-    fig-cap-location: top
-    tbl-cap-location: top
+    cap-location: top
+    
 ---
 
 ```{r}
-#|label: Packages
+#| label: Packages
 
 #Tidyverse Coding Styling
+
+
 library(tidyverse)
 library(dbplyr)
 library(kableExtra)
 #install.packages("patchwork")
 library(patchwork)
-library(ggplot2)
 #install.packages("ggpubr")
 library(ggpubr)
 ```
@@ -35,7 +36,7 @@ library(ggpubr)
 ## Data Overview
 
 ```{r}
-#|label: Importing Data
+#| label: Importing Data
 
 NFL_raw <- read.csv("nfl-team-statistics (1).csv")
 
@@ -43,7 +44,8 @@ NFL_raw <- read.csv("nfl-team-statistics (1).csv")
 
 
 ```{r}
-#|label: Adding East, West, North and South Conferences
+#| label: Adding East, West, North and South Conferences
+
 NFC_East_data <- NFL_raw %>%
   filter(team %in% c("DAL", "NYG", "PHI", "WAS"))%>%
   mutate(Conf = 'NFC_East')
@@ -85,6 +87,7 @@ NFL_Clean <- bind_rows(NFC_East_data, NFC_North_data, NFC_South_data, NFC_West_d
   )
 
 ```
+
 
 ```{r, fig.height=5, fig.width=10}
 #|label: fig-Win-association
@@ -221,6 +224,50 @@ NFL_O_D <- NFL_Clean %>%
     Mean_O_run_yards = mean(offense_total_yards_gained_run, na.rm = TRUE),
     Mean_D_pass_yards = mean(defense_total_yards_gained_pass, na.rm = TRUE),
     Mean_D_run_yards = mean(defense_total_yards_gained_run, na.rm = TRUE)
+
+```
+
+## Team Wins from 1999-2022
+
+
+```{r, fig.width=8}
+#| label: fig-team-wins
+#| fig-cap: "Boxplots of Team Wins"
+#| fig-alt: "Grid of four barcharts showing total team wins separated by division"
+
+#author: Isaac Swope
+
+
+ggplot(NFL_Clean) +
+  aes(x = fct_reorder(team, wins, .fun=sum, .desc=TRUE), y = wins, fill = Conf) +
+  geom_col(color = NA) +
+  facet_wrap("Div", scales = "free") + #eliminate spacing between columns due to scale
+  labs(y = "Wins", 
+       x = "Teams",
+       )
+  
+```
+
+{{< pagebreak >}}
+
+```{r}
+#| label: tbl-win-stats
+#| tbl-cap: "Team Wins Statistics"
+#| html-table-processing: none
+
+#author: Isaac Swope
+
+winsTable <- NFL_Clean %>%
+  group_by(team)%>%
+  summarize(
+    Count=n(),
+    Min = min(wins, na.rm = TRUE),
+    Quartile_1 = quantile(wins, probs = 0.25, na.rm = TRUE),
+    Median = median(wins, na.rm = TRUE),
+    Quintile_3 = quantile(wins, probs = 0.75, na.rm = TRUE),
+    Max = max(wins, na.rm = TRUE),
+    Mean = mean(wins, na.rm = TRUE),
+    SD = sd(wins, na.rm = TRUE),
   )%>%
   mutate(
     across(
@@ -229,6 +276,27 @@ NFL_O_D <- NFL_Clean %>%
     )
   )
 
+names(winsTable) <- c(
+    "Team",
+    "Seasons",
+    "Minimum",
+    "Quartile 1",
+    "Median",
+    "Quartile 3",
+    "Max",
+    "Mean",
+    "SD"
+    )
+  
+winsTable %>%
+  kable(
+    booktabs = TRUE,
+    align = c("l", rep("c",10))
+  )
+
+```
+
+```{r}
 names(NFL_O_D) <- c(
     "Teams",
     "Average Wins",
@@ -245,8 +313,10 @@ NFL_O_D %>%
 
 ```
 
+
+
 {{< pagebreak >}}
-Code Appendix
+#Code Appendix
 ``` {r codeAppend, ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
 
 ```
