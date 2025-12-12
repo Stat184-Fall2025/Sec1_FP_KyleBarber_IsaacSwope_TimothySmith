@@ -24,7 +24,12 @@ format:
 #Tidyverse Coding Styling
 library(tidyverse)
 library(dbplyr)
-
+library(kableExtra)
+#install.packages("patchwork")
+library(patchwork)
+library(ggplot2)
+#install.packages("ggpubr")
+library(ggpubr)
 ```
 
 ## Data Overview
@@ -81,138 +86,162 @@ NFL_Clean <- bind_rows(NFC_East_data, NFC_North_data, NFC_South_data, NFC_West_d
 
 ```
 
-```{r, fig.height=10}
+```{r, fig.height=5, fig.width=10}
+#|label: fig-Win-association
+#|fig-cap: "Win Association of Offensive and Defensive Pass Yards"
+#| fig-subcap: 
+#|   - "first"
+#|   - "second"
+#|   - "third"
+#|   - "fourth"
+#|fig-alt: "Four scatter plots showing NFL data, with axes for wins and various yard metrics. Trend lines suggest correlations."
 
-NFL_Clean%>%
-  filter(Conf == "NFC")%>%
+#author: Timothy Smith
+plot1<-NFL_Clean%>%
   group_by(Div)%>%
 ggplot(
     mapping = aes(
-      x = season,
+      x = offense_total_yards_gained_pass,
       y = wins,
-      color= team,
-      linetype = team
+      color = Conf
     )
   ) +
-  geom_line(linewidth = 1) +
-  facet_wrap(~Div) +
-  labs(#Step 4: add labels and title to the data visualization and create the colors for the lines----
-    x = "Year",
+  geom_point(size = 1, alpha=0.2) +
+  labs(#Step 4: add labels and title to the data visualization and create the colors for the points----
+    x = "Offensive Pass Yards",
     y = "Wins",
-    color = "team",
-    shape = "team",
-    title = "NFC teams and their wins from year to year"
+    color = "Conference",
+    title = "Wins Compared to Offensive Pass Yards"
   ) +
   scale_color_manual(
-    values = c("#000000", "#E69F00", "#56B4E9","#009E73", "#F0E442", "#0072B2","#D55E00", "#CC79A7", "#000000", "#E69F00", "#56B4E9","#009E73", "#F0E442", "#0072B2","#D55E00", "#CC79A7")
-  )+
-  scale_linetype_manual(
-    values = c(rep("solid",8), rep("dashed",8))
+    values = c("red", "blue")
   )+
   theme_bw() +
   theme(
     legend.position = "bottom"
-  )
+  )+
+  geom_smooth(method = "lm", se = FALSE, color = "black") 
 
-NFL_Clean%>%
-  filter(Conf == "AFC")%>%
+  plot2<-NFL_Clean%>%
   group_by(Div)%>%
 ggplot(
     mapping = aes(
-      x = season,
+      x = offense_total_yards_gained_run,
       y = wins,
-      color = team,
-      linetype = team
+      color = Conf
     )
   ) +
-  geom_line(linewidth = 1) +
-  facet_wrap(~Div) +
-  labs(#Step 4: add labels and title to the data visualization and create the colors for the lines----
-    x = "Year",
+  geom_point(size=1, alpha=0.2) +
+  labs(#Step 5: add labels and title to the data visualization and create the colors for the points----
+    x = "Offensive Run Yards",
     y = "Wins",
-    color = "team",
+    color = "Conference",
     shape = "team",
-    title = "AFC teams and their wins from year to year"
+    title = "Wins Compared to Offensive Run Yards"
   ) +
   scale_color_manual(
-    values = c("#000000", "#E69F00", "#56B4E9","#009E73", "#F0E442", "#0072B2","#D55E00", "#CC79A7", "#000000", "#E69F00", "#56B4E9","#009E73", "#F0E442", "#0072B2","#D55E00", "#CC79A7")
-  )+
-  scale_linetype_manual(
-    values = c(rep("solid", 8), rep("dashed", 8))
+    values = c("red", "blue")
   )+
   theme_bw() +
   theme(
     legend.position = "bottom"
-  )
+  )+
+  geom_smooth(method = "lm", se = FALSE, color = "black") 
+  
+  plot3<-NFL_Clean%>%
+  group_by(Div)%>%
+ggplot(
+    mapping = aes(
+      x = defense_total_yards_gained_pass,
+      y = wins,
+      color = Conf
+    )
+  ) +
+  geom_point(size=1, alpha=0.2) +
+  labs(#Step 6: add labels and title to the data visualization and create the colors for the lines----
+    x = "Defensive Allowed Pass Yards",
+    y = "Wins",
+    color = "Conference",
+    title = "Wins Compared to Defensive Allowed Pass Yards"
+  ) +
+  scale_color_manual(
+    values = c("red", "blue")
+  )+
+  theme_bw() +
+  theme(
+    legend.position = "bottom"
+  )+
+  geom_smooth(method = "lm", se = FALSE, color = "black") 
+  
+
+  plot4<-NFL_Clean%>%
+  group_by(Div)%>%
+ggplot(
+    mapping = aes(
+      x = defense_total_yards_gained_run,
+      y = wins,
+      color = Conf
+    )
+  ) +
+  geom_point(size=1, alpha=0.2) +
+  labs(#Step 7: add labels and title to the data visualization and create the colors for the lines----
+    x = "Defensive Allowed Run Yards",
+    y = "Wins",
+    color = "Conference",
+    title = "Wins Compared to Defensive Allowed Run Yards"
+  ) +
+  scale_color_manual(
+    values = c("red", "blue")
+  )+
+  theme_bw() +
+  theme(
+    legend.position = "bottom"
+  )+
+  geom_smooth(method = "lm", se = FALSE, color = "black") 
+  
+  ggarrange(plot1, plot2, plot3, plot4, nrow = 2, ncol = 2, common.legend = TRUE, legend = "bottom" )
+  
+
+
+
 ```
 
-```{r, fig.height=10}
+@fig-Win-association-1
 
-NFL_Clean%>%
-  filter(Conf == "NFC")%>%
-ggplot(
-    mapping = aes(
-      x = season,
-      y = offense_total_yards_gained_pass,
-      color = team,
-      linetype = team
-    )
-  ) +
-  geom_line(linewidth = 1) +
-  facet_wrap(~Div) +
-  labs(#Step 4: add labels and title to the data visualization and create the colors for the lines----
-    x = "team",
-    y = "Total pass yards",
-    color = "team",
-    shape = "team",
-    title = "NFC teams and their total pass yards from year to year"
-  ) +
-  scale_color_manual(
-    values = c("#000000", "#E69F00", "#56B4E9","#009E73", "#F0E442", "#0072B2","#D55E00", "#CC79A7", "#000000", "#E69F00", "#56B4E9","#009E73", "#F0E442", "#0072B2","#D55E00", "#CC79A7")
-  )+
-  scale_linetype_manual(
-    values = c(rep("solid",8), rep("dashed",8))
-  )+
-  theme_bw() +
-  theme(
-    legend.position = "bottom"
-  )
-
-NFL_Clean%>%
-  filter(Conf == "AFC")%>%
-  group_by(Div)%>%
-ggplot(
-    mapping = aes(
-      x = season,
-      y = offense_total_yards_gained_pass,
-      color = team,
-      linetype = team
-    )
-  ) +
-  geom_line(linewidth = 1) +
-  facet_wrap(~Div) +
-  labs(#Step 4: add labels and title to the data visualization and create the colors for the lines----
-    x = "Year",
-    y = "total pass yards",
-    color = "team",
-    shape = "team",
-    title = "AFC teams and their total pass yards from year to year"
-  ) +
-  scale_color_manual(
-    values = c("#000000", "#E69F00", "#56B4E9","#009E73", "#F0E442", "#0072B2","#D55E00", "#CC79A7", "#000000", "#E69F00", "#56B4E9","#009E73", "#F0E442", "#0072B2","#D55E00", "#CC79A7")
-  )+
-  scale_linetype_manual(
-    values = c(rep("solid",8), rep("dashed",8))
-  )+
-  theme_bw() +
-  theme(
-    legend.position = "bottom"
-  )
-```
 
 ```{r}
+#| label: tbl-O-D-Statistics 
+#|tbl-cap: "NFL Offensive and Drfensive Statistics"
 
+NFL_O_D <- NFL_Clean %>%
+  group_by(team)%>%
+  summarize(
+    Mean_Wins = mean(wins, na.rm = TRUE),
+    Mean_O_pass_yards = mean(offense_total_yards_gained_pass, na.rm = TRUE),
+    Mean_O_run_yards = mean(offense_total_yards_gained_run, na.rm = TRUE),
+    Mean_D_pass_yards = mean(defense_total_yards_gained_pass, na.rm = TRUE),
+    Mean_D_run_yards = mean(defense_total_yards_gained_run, na.rm = TRUE)
+  )%>%
+  mutate(
+    across(
+      .cols = where(is.numeric),
+      .fns = ~round(.x, digits = 2)
+    )
+  )
 
+names(NFL_O_D) <- c(
+    "Teams",
+    "Average Wins",
+    "Mean Offensive Pass Yards",
+    "Mean Offense Run Yards",
+    "Mean Defensive Pass Yards",
+    "Mean Defensive Run Yards"
+    )
+  
+NFL_O_D %>%
+  kable(
+    booktabs = TRUE,
+    align = c("l", rep("c",10)))
 
 ```
 
