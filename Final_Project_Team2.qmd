@@ -23,7 +23,8 @@ format:
 
 #Tidyverse Coding Styling
 library(tidyverse)
-library(dbplyr)
+library(ggimage)
+library(kableExtra)
 
 ```
 
@@ -100,20 +101,24 @@ NFL_Clean_3 <- NFL_Clean %>%
     point_differential = mean(score_differential),
     .groups = "drop"
   )
+NFL_Clean_3$logo <- paste0("Logos/", NFL_Clean_3$team, ".png")
+
+slope_and_intercept <- lm(points_allowed ~ points_scored, data = NFL_Clean_3)
 
 ggplot(NFL_Clean_3) +
-  aes(x = points_scored, y = points_allowed, colour = team) +
-  scale()
-  geom_point() +
+  aes(x = points_allowed, y = points_scored) +
+  geom_point(size = 0.1) +
+  #geom_image(aes(image = logo)) +
   scale_color_hue(direction = 1) +
   labs(
     title = "Team Effeciency",
     x = "Points Allowed (per season)",
     y = "Points Scored (per season)"
   ) +
+  #Need to fix slope and intercept
   geom_abline(slope = 1, intercept = 0) +
   theme_minimal() +
-  facet_wrap(vars(conf))
+  facet_wrap(vars(Conf))
 ```
 
 ## Effeciency Tables
@@ -122,30 +127,32 @@ ggplot(NFL_Clean_3) +
 #|fig-cap:
 #|fig-alt:
 #|fig-pos: "H"
-# Raw code for tables
-library(kableExtra)
 AFC_table <- NFL_Clean_3%>%
-  filter(conf == 'AFC')%>%
+  filter(Conf == 'AFC')%>%
   select(team, point_differential, wins, losses)%>%
   mutate(
     point_differential = round(point_differential, digits = 4),
     wins = round(wins, digits = 4),
     losses = round(losses, digits = 4)
   )%>%
-  kable(caption = "AFC Team Effeciency")%>%
-  kableExtra::kable_classic()
-
+  arrange(desc(wins))%>%
+  kable(caption = "AFC Team Effeciency",
+        booktabs = TRUE,
+        align = c("l", rep("c", 10)))
 
 NFC_table <- NFL_Clean_3%>%
-  filter(conf == 'NFC')%>%
+  filter(Conf == 'NFC')%>%
   select(team, point_differential, wins, losses)%>%
   mutate(
     point_differential = round(point_differential, digits = 4),
     wins = round(wins, digits = 4),
     losses = round(losses, digits = 4)
   )%>%
-  kable(caption = "NFC Team Effeciency")%>%
-  kableExtra::kable_classic()
+  arrange(desc(wins))%>%
+  kable(caption = "NFC Team Effeciency",
+        booktabs = TRUE,
+        align = c("l", rep("c", 10)))
+
 ```
 
 {{< pagebreak >}}
