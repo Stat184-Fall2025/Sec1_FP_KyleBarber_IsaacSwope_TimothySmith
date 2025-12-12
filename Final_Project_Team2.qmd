@@ -82,7 +82,9 @@ NFL_Clean <- bind_rows(NFC_East_data, NFC_North_data, NFC_South_data, NFC_West_d
 
 ```
 
-## Effeciency Scatterplot
+## Team Efficiency
+
+
 ```{r}
 #| label: fig-effeciency-scatter-plot
 #| fig-cap: NFL Team Effeciency Scatter Plot
@@ -115,7 +117,6 @@ ggplot(NFL_Clean_3) +
 
 ```
 
-## AFC Effeciency Table
 ```{r}
 #| label: tbl-effeciency-scatter-plot-AFC
 #| tbl-cap: "AFC Effeciency tables"
@@ -146,7 +147,7 @@ AFC_table %>%
   column_spec(2, image = spec_image(path = AFC_table$logo, 50, 50))
 
 ```
-## AFC Effeciency Table
+
 ```{r}
 #| label: tbl-effeciency-scatter-plot-NFC
 #| tbl-cap: "NFC Effeciency tables"
