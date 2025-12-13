@@ -12,26 +12,29 @@ execute:
   echo: false
 format:
   pdf:
-    embed-resources: true
     geometry: margin=1in
-    fig-cap-location: top
-    tbl-cap-location: top
+    cap-location: top
+    
 ---
 
 ```{r}
-#|label: Packages
+#| label: Packages
 
 #Tidyverse Coding Styling
+
+
 library(tidyverse)
 library(ggimage)
 library(kableExtra)
+library(patchwork)
+library(ggpubr)
 
 ```
 
 ## Data Overview
 
 ```{r}
-#|label: Importing Data
+#| label: Importing Data
 
 NFL_raw <- read.csv("nfl-team-statistics (1).csv")
 
@@ -39,7 +42,8 @@ NFL_raw <- read.csv("nfl-team-statistics (1).csv")
 
 
 ```{r}
-#|label: Adding East, West, North and South Conferences
+#| label: Adding East, West, North and South Conferences
+
 NFC_East_data <- NFL_raw %>%
   filter(team %in% c("DAL", "NYG", "PHI", "WAS"))%>%
   mutate(Conf = 'NFC_East')
@@ -78,6 +82,227 @@ NFL_Clean <- bind_rows(NFC_East_data, NFC_North_data, NFC_South_data, NFC_West_d
     cols = 'Conf',
     delim = '_',
     names = c('Conf', 'Div')
+  )
+
+```
+
+## Offensive and Defensive Association with Wins
+
+```{r, fig.height=5, fig.width=10}
+#|label: fig-Win-association
+#|fig-cap: "Win Association of Offensive and Defensive Pass Yards"
+#| fig-subcap: 
+#|   - "first"
+#|   - "second"
+#|   - "third"
+#|   - "fourth"
+#|fig-alt: "Four scatter plots showing NFL data, with axes for wins and various yard metrics. Trend lines suggest correlations."
+
+#author: Timothy Smith
+plot1<-NFL_Clean%>%
+  group_by(Div)%>%
+ggplot(
+    mapping = aes(
+      x = offense_total_yards_gained_pass,
+      y = wins,
+      color = Conf
+    )
+  ) +
+  geom_point(size = 1, alpha=0.2) +
+  labs(#Step 4: add labels and title to the data visualization and create the colors for the points----
+    x = "Offensive Pass Yards",
+    y = "Wins",
+    color = "Conference",
+    title = "Wins Compared to Offensive Pass Yards"
+  ) +
+  scale_color_manual(
+    values = c("red", "blue")
+  )+
+  theme_bw() +
+  theme(
+    legend.position = "bottom"
+  )+
+  geom_smooth(method = "lm", se = FALSE, color = "black") 
+
+  plot2<-NFL_Clean%>%
+  group_by(Div)%>%
+ggplot(
+    mapping = aes(
+      x = offense_total_yards_gained_run,
+      y = wins,
+      color = Conf
+    )
+  ) +
+  geom_point(size=1, alpha=0.2) +
+  labs(#Step 5: add labels and title to the data visualization and create the colors for the points----
+    x = "Offensive Run Yards",
+    y = "Wins",
+    color = "Conference",
+    shape = "team",
+    title = "Wins Compared to Offensive Run Yards"
+  ) +
+  scale_color_manual(
+    values = c("red", "blue")
+  )+
+  theme_bw() +
+  theme(
+    legend.position = "bottom"
+  )+
+  geom_smooth(method = "lm", se = FALSE, color = "black") 
+  
+  plot3<-NFL_Clean%>%
+  group_by(Div)%>%
+ggplot(
+    mapping = aes(
+      x = defense_total_yards_gained_pass,
+      y = wins,
+      color = Conf
+    )
+  ) +
+  geom_point(size=1, alpha=0.2) +
+  labs(#Step 6: add labels and title to the data visualization and create the colors for the lines----
+    x = "Defensive Allowed Pass Yards",
+    y = "Wins",
+    color = "Conference",
+    title = "Wins Compared to Defensive Allowed Pass Yards"
+  ) +
+  scale_color_manual(
+    values = c("red", "blue")
+  )+
+  theme_bw() +
+  theme(
+    legend.position = "bottom"
+  )+
+  geom_smooth(method = "lm", se = FALSE, color = "black") 
+  
+
+  plot4<-NFL_Clean%>%
+  group_by(Div)%>%
+ggplot(
+    mapping = aes(
+      x = defense_total_yards_gained_run,
+      y = wins,
+      color = Conf
+    )
+  ) +
+  geom_point(size=1, alpha=0.2) +
+  labs(#Step 7: add labels and title to the data visualization and create the colors for the lines----
+    x = "Defensive Allowed Run Yards",
+    y = "Wins",
+    color = "Conference",
+    title = "Wins Compared to Defensive Allowed Run Yards"
+  ) +
+  scale_color_manual(
+    values = c("red", "blue")
+  )+
+  theme_bw() +
+  theme(
+    legend.position = "bottom"
+  )+
+  geom_smooth(method = "lm", se = FALSE, color = "black") 
+  
+  ggarrange(plot1, plot2, plot3, plot4, nrow = 2, ncol = 2, common.legend = TRUE, legend = "bottom" )
+  
+
+
+
+```
+
+
+```{r}
+#| label: tbl-O-D-Statistics 
+#|tbl-cap: "NFL Offensive and Drfensive Statistics"
+
+NFL_O_D <- NFL_Clean %>%
+  group_by(team)%>%
+  summarize(
+    Mean_Wins = mean(wins, na.rm = TRUE),
+    Mean_O_pass_yards = mean(offense_total_yards_gained_pass, na.rm = TRUE),
+    Mean_O_run_yards = mean(offense_total_yards_gained_run, na.rm = TRUE),
+    Mean_D_pass_yards = mean(defense_total_yards_gained_pass, na.rm = TRUE),
+    Mean_D_run_yards = mean(defense_total_yards_gained_run, na.rm = TRUE)
+  ) 
+    
+    names(NFL_O_D) <- c(
+    "Teams",
+    "Average Wins",
+    "Mean Offensive Pass Yards",
+    "Mean Offense Run Yards",
+    "Mean Defensive Pass Yards",
+    "Mean Defensive Run Yards"
+    )
+  
+NFL_O_D %>%
+  kable(
+    booktabs = TRUE,
+    align = c("l", rep("c",10)))
+
+```
+
+## Team Wins from 1999-2022
+
+
+```{r, fig.width=8}
+#| label: fig-team-wins
+#| fig-cap: "Boxplots of Team Wins"
+#| fig-alt: "Grid of four barcharts showing total team wins separated by division"
+
+#author: Isaac Swope
+
+
+ggplot(NFL_Clean) +
+  aes(x = fct_reorder(team, wins, .fun=sum, .desc=TRUE), y = wins, fill = Conf) +
+  geom_col(color = NA) +
+  facet_wrap("Div", scales = "free") + #eliminate spacing between columns due to scale
+  labs(y = "Wins", 
+       x = "Teams",
+       )
+  
+```
+
+
+```{r}
+#| label: tbl-win-stats
+#| tbl-cap: "Team Wins Statistics"
+#| html-table-processing: none
+
+#author: Isaac Swope
+
+winsTable <- NFL_Clean %>%
+  group_by(team)%>%
+  summarize(
+    Count=n(),
+    Min = min(wins, na.rm = TRUE),
+    Quartile_1 = quantile(wins, probs = 0.25, na.rm = TRUE),
+    Median = median(wins, na.rm = TRUE),
+    Quintile_3 = quantile(wins, probs = 0.75, na.rm = TRUE),
+    Max = max(wins, na.rm = TRUE),
+    Mean = mean(wins, na.rm = TRUE),
+    SD = sd(wins, na.rm = TRUE),
+  )%>%
+  mutate(
+    across(
+      .cols = where(is.numeric),
+      .fns = ~round(.x, digits = 2)
+    )
+  )
+
+names(winsTable) <- c(
+    "Team",
+    "Seasons",
+    "Minimum",
+    "Quartile 1",
+    "Median",
+    "Quartile 3",
+    "Max",
+    "Mean",
+    "SD"
+    )
+  
+winsTable %>%
+  kable(
+    booktabs = TRUE,
+    align = c("l", rep("c",10))
   )
 
 ```
@@ -140,10 +365,12 @@ AFC_table <- NFL_Clean_3%>%
 
 AFC_table %>%
   select(Team, image, `Average Point Differential`, `Win Rate`, `Loss Rate`) %>%
-  kable(booktabs = TRUE,
-        align = c("l", rep("c", 10)))%>%
-  kable_styling()%>%
-  kable_paper(full_width = T)%>%
+  kable(
+    booktabs = TRUE,
+    align = c("l", rep("c", 10)),
+    format = "latex"
+  )%>%
+  kable_paper()%>%
   column_spec(2, image = spec_image(path = AFC_table$logo, 50, 50))
 
 ```
@@ -171,17 +398,18 @@ NFC_table <- NFL_Clean_3%>%
 
 NFC_table %>%
   select(Team, image, `Average Point Differential`, `Win Rate`, `Loss Rate`) %>%
-  kable(booktabs = TRUE,
-        align = c("l", rep("c", 10)))%>%
-  kable_styling()%>%
-  kable_paper(full_width = T)%>%
+  kable(
+    booktabs = TRUE,
+    align = c("l", rep("c", 10)),
+    format = "latex"
+  )%>%
+  kable_paper()%>%
   column_spec(2, image = spec_image(path = AFC_table$logo, 50, 50))
 
 ```
 
-
 {{< pagebreak >}}
-Code Appendix
+#Code Appendix
 ``` {r codeAppend, ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
 
 ```
