@@ -87,29 +87,27 @@ NFL_Clean <- bind_rows(NFC_East_data, NFC_North_data, NFC_South_data, NFC_West_d
 ```
 
 ## Offensive and Defensive Association with Wins
+### Scatterplot of Win associations
+In @fig-Win-association the y-axis has the wins that range from 0 to 16 and a linear regression line that wins with four different variables. In Wins Compared to Offensive Pass Yards the x-axis is the Offensive Pass Yards that range from 1000 to 6000. There is a positive linear association between wins and offensive pass yards which shows that as teams pass for more yards in a season they tend to win more games. In Wins Compared to Offensive Run Yards the x-axis is offensive run yards that range from 1000 to 4000 yards. There is a slightly stronger positive linear association between offensive run yards per seasons and offensive pass yards. This leads us to believe that it is slightly more important for teams to focus on good run offense then pass offense. Wins Compared to Defensive Allowed Pass Yards has defensive allowed pass yards as the x-axis with a range of 2000 to 5000 yards. There is a slightly negative linear association between defensive allowed pass yards and team wins. In Wins Compared to Defensive Allowed Run Yards the x-axis is defensive allowed run yards with a range from 500 to 3000 yards. There is a relatively strong negative linear association between defensive run yards allowed and team wins in a season. This leads us to believe that it is much more important to focus on run defense than pass defense as that would lead to more wins. In @fig-Win-association the colors are sorted by AFC and NFC teams for all of the graphs. In @fig-Win-association it seems to be more important to focus on both run offense and run defense to lead to more wins. It is definitely more important to focus on run defense then it is to focus on pass defense. This could be because a strong game allows a team to control the clock and have more possession time then the other team as every run play uses the clock.
+
 
 ```{r, fig.height=5, fig.width=10}
-#|label: fig-Win-association
-#|fig-cap: "Win Association of Offensive and Defensive Pass Yards"
-#| fig-subcap: 
-#|   - "first"
-#|   - "second"
-#|   - "third"
-#|   - "fourth"
-#|fig-alt: "Four scatter plots showing NFL data, with axes for wins and various yard metrics. Trend lines suggest correlations."
+#| label: fig-Win-association
+#| fig-cap: "Win Association of Offensive and Defensive Pass Yards"
+#| fig-alt: "Four scatter plots showing NFL data, with axes for wins and various yard metrics. Trend lines suggest correlations."
 
 #author: Timothy Smith
 plot1<-NFL_Clean%>%
   group_by(Div)%>%
-ggplot(
+ggplot(# Step 1: Create the first graph using ggplot and geom point with x as offense pass yards and y as wins with colors being conference----
     mapping = aes(
       x = offense_total_yards_gained_pass,
       y = wins,
       color = Conf
-    )
+    )#Step 2: Make the points size 1 and the transparency to be .2 ----
   ) +
   geom_point(size = 1, alpha=0.2) +
-  labs(#Step 4: add labels and title to the data visualization and create the colors for the points----
+  labs(#Step 3: add labels and title to the data visualization and create the colors for the points----
     x = "Offensive Pass Yards",
     y = "Wins",
     color = "Conference",
@@ -123,18 +121,18 @@ ggplot(
     legend.position = "bottom"
   )+
   geom_smooth(method = "lm", se = FALSE, color = "black") 
-
+# Step 4: Create the regression line ----
   plot2<-NFL_Clean%>%
   group_by(Div)%>%
-ggplot(
+ggplot(# Step 5: Repeat Step 1 but x is the total rush yards----
     mapping = aes(
       x = offense_total_yards_gained_run,
       y = wins,
       color = Conf
-    )
+    )#Step 6: repeat step 2 for the second plot ----
   ) +
   geom_point(size=1, alpha=0.2) +
-  labs(#Step 5: add labels and title to the data visualization and create the colors for the points----
+  labs(#Step 7: repeat step 3 for the second plot----
     x = "Offensive Run Yards",
     y = "Wins",
     color = "Conference",
@@ -149,18 +147,18 @@ ggplot(
     legend.position = "bottom"
   )+
   geom_smooth(method = "lm", se = FALSE, color = "black") 
-  
+  #Step 8: Repeat step 4 for second plot----
   plot3<-NFL_Clean%>%
   group_by(Div)%>%
-ggplot(
+ggplot(#Step 9: Repeat step 1 but with x as the defensive allowed pass yards ----
     mapping = aes(
       x = defense_total_yards_gained_pass,
       y = wins,
       color = Conf
-    )
+    )#Step 10: Repeat step 2 but for third plot----
   ) +
   geom_point(size=1, alpha=0.2) +
-  labs(#Step 6: add labels and title to the data visualization and create the colors for the lines----
+  labs(#Step 11: repeat step 3 but for third plot----
     x = "Defensive Allowed Pass Yards",
     y = "Wins",
     color = "Conference",
@@ -174,19 +172,19 @@ ggplot(
     legend.position = "bottom"
   )+
   geom_smooth(method = "lm", se = FALSE, color = "black") 
-  
+  #Step 12: repeat step 4 but for third plot----
 
   plot4<-NFL_Clean%>%
   group_by(Div)%>%
-ggplot(
+ggplot(#Step 13: repeat step 1 but x is the allowed rush yards----
     mapping = aes(
       x = defense_total_yards_gained_run,
       y = wins,
       color = Conf
-    )
+    )# Step 14: repeat step 2 but for fourth plot----
   ) +
   geom_point(size=1, alpha=0.2) +
-  labs(#Step 7: add labels and title to the data visualization and create the colors for the lines----
+  labs(#Step 15: repeat step 3 but for fourth plot----
     x = "Defensive Allowed Run Yards",
     y = "Wins",
     color = "Conference",
@@ -200,30 +198,35 @@ ggplot(
     legend.position = "bottom"
   )+
   geom_smooth(method = "lm", se = FALSE, color = "black") 
+#Step 16: repeat step 4 but for fourth plot----
   
   ggarrange(plot1, plot2, plot3, plot4, nrow = 2, ncol = 2, common.legend = TRUE, legend = "bottom" )
   
-
+#Step 17: create a grid with all of the plots together----
 
 
 ```
+### Average Wins and Offensive and Defensive Yards Table
 
+@tbl-O-D-Statistics includes the average team wins, the 32 NFL teams, average Offensive pass yards, average offensive rush yards, average defensive rush yards, and average defensive pass yards. The defensive statistics is the average amount of yards that the defense allowed so the lower the number the better the team is in that particular stat. The team with the most average wins in the patriots which makes sense as they had one of the biggest dynasties in NFL history. What is interesting about this is that they had the highest wins, but in every other category there was at least one team that performed better then them. The highest average offensive pass yards belonged to New Orleans which is 9th in the average wins statistic. The highest average rush yards belongs and lowest allowed rush yards belongs to Baltimore which is 5th in average wins. Buffalo has the lowest allowed pass yards and they are 17th in average wins. This shows that the best team is not the best in each category so it must be a combination of these things that lead to winning football. Cleveland does have the lowest average wins and lowest average allowed rush yards so there could be a stronger correlation with losing and have a bad rush defense which is also supported in @fig-Win-association
 
 ```{r}
 #| label: tbl-O-D-Statistics 
-#|tbl-cap: "NFL Offensive and Drfensive Statistics"
+#| tbl-cap: "NFL Offensive and Defensive Statistics"
 
+#author: Timothy Smith
 NFL_O_D <- NFL_Clean %>%
   group_by(team)%>%
-  summarize(
+  summarize(#Step 1: Determine the average values of the 5 main statistics that I want to work on and arrange by the Average Team Wins----
     Mean_Wins = mean(wins, na.rm = TRUE),
     Mean_O_pass_yards = mean(offense_total_yards_gained_pass, na.rm = TRUE),
     Mean_O_run_yards = mean(offense_total_yards_gained_run, na.rm = TRUE),
     Mean_D_pass_yards = mean(defense_total_yards_gained_pass, na.rm = TRUE),
     Mean_D_run_yards = mean(defense_total_yards_gained_run, na.rm = TRUE)
-  ) 
+  ) %>%
+  arrange(desc(Mean_Wins))
     
-    names(NFL_O_D) <- c(
+    names(NFL_O_D) <- c(#Step 2: replace the Names of the columns----
     "Teams",
     "Average Wins",
     "Mean Offensive Pass Yards",
@@ -233,7 +236,7 @@ NFL_O_D <- NFL_Clean %>%
     )
   
 NFL_O_D %>%
-  kable(
+  kable(#Step 3: Create the table using the kable function----
     booktabs = TRUE,
     align = c("l", rep("c",10)))
 
@@ -313,7 +316,7 @@ winsTable %>%
 ```{r}
 #| label: fig-effeciency-scatter-plot
 #| fig-cap: NFL Team Effeciency Scatter Plot
-#| fig-alt:
+#| fig-alt: "Scatter plot of NFL teams' points scored versus points allowed for AFC and NFC teams."
 NFL_Clean_3 <- NFL_Clean %>%
   select(team, Conf, score_differential, points_scored,
          points_allowed, wins, losses) %>%
@@ -345,7 +348,7 @@ ggplot(NFL_Clean_3) +
 ```{r}
 #| label: tbl-effeciency-scatter-plot-AFC
 #| tbl-cap: "AFC Effeciency tables"
-#| fig-alt:
+
 AFC_table <- NFL_Clean_3%>%
   filter(Conf == 'AFC')%>%
   select(team, point_differential, wins, losses, logo)%>%
@@ -378,7 +381,7 @@ AFC_table %>%
 ```{r}
 #| label: tbl-effeciency-scatter-plot-NFC
 #| tbl-cap: "NFC Effeciency tables"
-#| fig-alt:
+
 NFC_table <- NFL_Clean_3%>%
   filter(Conf == 'NFC')%>%
   select(team, point_differential, wins, losses, logo)%>%
