@@ -311,9 +311,13 @@ winsTable %>%
 
 
 ```{r}
-#| label: fig-effeciency-scatter-plot
-#| fig-cap: NFL Team Effeciency Scatter Plot
-#| fig-alt:
+#| label: fig-efficiency-scatter-plot
+#| fig-cap: "NFL Team Efficiency Scatter Plot"
+#| fig-alt: "Scatter plot of all NFL teams average points scored vs points allowed with effeciency line."
+#| fig-pos: "H"
+
+#Author: Kyle Barber
+
 NFL_Clean_3 <- NFL_Clean %>%
   select(team, Conf, score_differential, points_scored,
          points_allowed, wins, losses) %>%
@@ -342,10 +346,16 @@ ggplot(NFL_Clean_3) +
 
 ```
 
+@fig-efficiency-scatter-plot shows a scatter plot of each NFL team's efficiency by showing the relationship between a team's average points allowed per season (x-axis) vs average points scored per season (y-axis) from the 1999 NFL regular season to the 2022 NFL regular season. Each point on the graph represents an individual team average and differentiates the teams by team logo. The top left corner of the plot shows the most efficient teams. The bottom right corner of the plot shows the least efficient teams. The diagonal line in the middle of both plots demonstrates a efficiency threshold. If a team is above the line they are considered efficient. If a team is below the line they are considered inefficient. If a team is on the line they are neutral. The plot is broken up into two sides, one representing the AFC teams and the other representing the NFC teams. 
+
 ```{r}
-#| label: tbl-effeciency-scatter-plot-AFC
-#| tbl-cap: "AFC Effeciency tables"
-#| fig-alt:
+#| label: tbl-efficiency-AFC
+#| tbl-cap: "AFC Efficiency Table"
+#| tbl-alt: "Data table showing all AFC team's logo, average point differential, win rate, and loss rate."
+#| tbl-pos: "H"
+
+#Author: Kyle Barber
+  
 AFC_table <- NFL_Clean_3%>%
   filter(Conf == 'AFC')%>%
   select(team, point_differential, wins, losses, logo)%>%
@@ -375,10 +385,16 @@ AFC_table %>%
 
 ```
 
+@tbl-efficiency-AFC shows a data table where the case is an individual AFC team. The variable include team, logo, average point differential, win rate and loss rate. All variables and statistics were calculated from the 1999 NFL regular season to the 2022 NFL regular season. 
+
 ```{r}
-#| label: tbl-effeciency-scatter-plot-NFC
-#| tbl-cap: "NFC Effeciency tables"
-#| fig-alt:
+#| label: tbl-efficiency-NFC
+#| tbl-cap: "NFC Efficiency Table"
+#| tbl-alt: "Data table showing all NFC team's logo, average point differential, win rate, and loss rate."
+#| tbl-pos: "H"
+
+#Author: Kyle Barber
+
 NFC_table <- NFL_Clean_3%>%
   filter(Conf == 'NFC')%>%
   select(team, point_differential, wins, losses, logo)%>%
@@ -404,9 +420,11 @@ NFC_table %>%
     format = "latex"
   )%>%
   kable_paper()%>%
-  column_spec(2, image = spec_image(path = AFC_table$logo, 50, 50))
+  column_spec(2, image = spec_image(path = NFC_table$logo, 50, 50))
 
 ```
+
+@tbl-efficiency-NFC shows a data table where the case is an individual NFC team. The variable include team, logo, average point differential, win rate and loss rate. All variables and statistics were calculated from the 1999 NFL regular season to the 2022 NFL regular season. 
 
 {{< pagebreak >}}
 #Code Appendix
