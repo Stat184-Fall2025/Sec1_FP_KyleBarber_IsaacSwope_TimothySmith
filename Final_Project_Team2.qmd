@@ -99,7 +99,7 @@ In @fig-Win-association the y-axis has the wins that range from 0 to 16 and a li
 #| fig-alt: "Four scatter plots showing NFL data, with axes for wins and various yard metrics. Trend lines suggest correlations."
 
 #author: Timothy Smith
-#reviewed: Isaac Swope
+#reviewed: Isaac Swope, Kyle Barber
 
 plot1<-NFL_Clean%>%
   group_by(Div)%>%
@@ -219,7 +219,7 @@ ggplot(#Step 13: repeat step 1 but x is the allowed rush yards----
 #| tbl-cap: "NFL Offensive and Defensive Statistics"
 
 #author: Timothy Smith
-#reviewed: Isaac Swope
+#reviewed: Isaac Swope, Kyle Barber
 
 NFL_O_D <- NFL_Clean %>%
   group_by(team)%>%
@@ -283,7 +283,7 @@ Now it would be appropriate to provide a table showing statistics for wins by se
 #| html-table-processing: none
 
 #author: Isaac Swope
-#reviewed: Timothy Smith
+#reviewed: Timothy Smith, Kyle Barber
 
 winsTable <- NFL_Clean %>%
   group_by(team)%>% #we want to group by team
@@ -333,7 +333,7 @@ winsTable %>%
 #| fig-pos: "H"
 
 #Author: Kyle Barber
-#reviewer
+#reviewed: 
 
 NFL_Clean_3 <- NFL_Clean %>% ## Wrangle data
   select(team, Conf, score_differential, points_scored,
@@ -372,7 +372,7 @@ ggplot(NFL_Clean_3) + ## Make plot
 #| tbl-pos: "H"
 
 #Author: Kyle Barber
-#Reviewer
+#Reviewed: 
   
 AFC_table <- NFL_Clean_3%>% ## Clean data
   filter(Conf == 'AFC')%>% ### Choose necessary confrence
@@ -410,7 +410,7 @@ AFC_table %>% ## Make table
 #| tbl-pos: "H"
 
 #Author: Kyle Barber
-#Reviewer: 
+#Reviewed: 
 
 NFC_table <- NFL_Clean_3%>% ## Clean data
   filter(Conf == 'NFC')%>% ### Choose necessary confrence
