@@ -1,5 +1,5 @@
 ---
-title: "NFL_Data_Analysis"
+title: "NFL Data Analysis"
 authors: 
   - name: Isaac Swope
   - name: Kyle Barber
@@ -16,7 +16,8 @@ format:
     cap-location: top
     fig-pos: H
     tbl-pos: H
-    
+csl: apa7.csl
+bibliography: citations.bib
 ---
 
 ```{r}
@@ -41,7 +42,8 @@ library(ggpubr)
 NFL_raw <- read.csv("nfl-team-statistics (1).csv")
 
 ```
-We chose to use the National Football Team Statistics data from data.scorenetwork.org. This data set was created by Ron Yurko and was published on May 24th, 2023. This data sets contains various team statistics from the 1999 regular season to the 2022 regular season for all 32 NFL teams. In this data set a case is an individual NFL team during a specific regular season from 1999 to 2022. This data was collected through the nflreadr package in r. The data contains two categorical variables, team and season. It also contains 54 quantitative variables including offensive passing stats, offensive rushing stats, defensive stats, wins, losses, and much more. This data was produced in a free to use csv file found on the data.scorenetwork.org website. The data met all of the FAIR requirements as it was easily finadable and accessible. Also, the data was interoperable as all the data was in a csv file. Lastly, it was reproducible as we were able to work with it in R studio. The data also met all CARE principles. The data can be used by anyone to benefit data analysis. The data is accessible by anyone and free to use. Also, the data is responsible and ethical as the data is accurate and up to date. 
+
+We chose to use the National Football Team Statistics data from data.scorenetwork.org. This data set was created by Ron Yurko and was published on May 24th, 2023. This data sets contains various team statistics from the 1999 regular season to the 2022 regular season for all 32 NFL teams. In this data set a case is an individual NFL team during a specific regular season from 1999 to 2022. This data was collected through the nflreadr package in r. The data contains two categorical variables, team and season. It also contains 54 quantitative variables including offensive passing stats, offensive rushing stats, defensive stats, wins, losses, and much more. This data was produced in a free to use csv file found on the data.scorenetwork.org website, [@yurko_national_2023]. The data met all of the FAIR requirements as it was easily finadable and accessible. Also, the data was interoperable as all the data was in a csv file. Lastly, it was reproducible as we were able to work with it in R studio. The data also met all CARE principles. The data can be used by anyone to benefit data analysis. The data is accessible by anyone and free to use. Also, the data is responsible and ethical as the data is accurate and up to date.
 
 ```{r}
 #| label: Adding East, West, North and South Conferences
@@ -89,9 +91,10 @@ NFL_Clean <- bind_rows(NFC_East_data, NFC_North_data, NFC_South_data, NFC_West_d
 ```
 
 ## Offensive and Defensive Association with Wins
-### Scatterplot of Win associations
-In @fig-Win-association the y-axis has the wins that range from 0 to 16 and a linear regression line that wins with four different variables. In Wins Compared to Offensive Pass Yards the x-axis is the Offensive Pass Yards that range from 1000 to 6000. There is a positive linear association between wins and offensive pass yards which shows that as teams pass for more yards in a season they tend to win more games. In Wins Compared to Offensive Run Yards the x-axis is offensive run yards that range from 1000 to 4000 yards. There is a slightly stronger positive linear association between offensive run yards per seasons and offensive pass yards. This leads us to believe that it is slightly more important for teams to focus on good run offense then pass offense. Wins Compared to Defensive Allowed Pass Yards has defensive allowed pass yards as the x-axis with a range of 2000 to 5000 yards. There is a slightly negative linear association between defensive allowed pass yards and team wins. In Wins Compared to Defensive Allowed Run Yards the x-axis is defensive allowed run yards with a range from 500 to 3000 yards. There is a relatively strong negative linear association between defensive run yards allowed and team wins in a season. This leads us to believe that it is much more important to focus on run defense than pass defense as that would lead to more wins. In @fig-Win-association the colors are sorted by AFC and NFC teams for all of the graphs. In @fig-Win-association it seems to be more important to focus on both run offense and run defense to lead to more wins. It is definitely more important to focus on run defense then it is to focus on pass defense. This could be because a strong game allows a team to control the clock and have more possession time then the other team as every run play uses the clock.
 
+### Scatterplot of Win associations
+
+In @fig-Win-association the y-axis has the wins that range from 0 to 16 and a linear regression line that wins with four different variables. In Wins Compared to Offensive Pass Yards the x-axis is the Offensive Pass Yards that range from 1000 to 6000. There is a positive linear association between wins and offensive pass yards which shows that as teams pass for more yards in a season they tend to win more games. In Wins Compared to Offensive Run Yards the x-axis is offensive run yards that range from 1000 to 4000 yards. There is a slightly stronger positive linear association between offensive run yards per seasons and offensive pass yards. This leads us to believe that it is slightly more important for teams to focus on good run offense then pass offense. Wins Compared to Defensive Allowed Pass Yards has defensive allowed pass yards as the x-axis with a range of 2000 to 5000 yards. There is a slightly negative linear association between defensive allowed pass yards and team wins. In Wins Compared to Defensive Allowed Run Yards the x-axis is defensive allowed run yards with a range from 500 to 3000 yards. There is a relatively strong negative linear association between defensive run yards allowed and team wins in a season. This leads us to believe that it is much more important to focus on run defense than pass defense as that would lead to more wins. In @fig-Win-association the colors are sorted by AFC and NFC teams for all of the graphs. In @fig-Win-association it seems to be more important to focus on both run offense and run defense to lead to more wins. It is definitely more important to focus on run defense then it is to focus on pass defense. This could be because a strong game allows a team to control the clock and have more possession time then the other team as every run play uses the clock.
 
 ```{r, fig.height=5, fig.width=10}
 #| label: fig-Win-association
@@ -210,9 +213,10 @@ ggplot(#Step 13: repeat step 1 but x is the allowed rush yards----
 
 
 ```
+
 ### Average Wins and Offensive and Defensive Yards Table
 
-@tbl-O-D-Statistics includes the average team wins, the 32 NFL teams, average Offensive pass yards, average offensive rush yards, average defensive rush yards, and average defensive pass yards. The defensive statistics is the average amount of yards that the defense allowed so the lower the number the better the team is in that particular stat. The team with the most average wins in the patriots which makes sense as they had one of the biggest dynasties in NFL history. What is interesting about this is that they had the highest wins, but in every other category there was at least one team that performed better then them. The highest average offensive pass yards belonged to New Orleans which is 9th in the average wins statistic. The highest average rush yards belongs and lowest allowed rush yards belongs to Baltimore which is 5th in average wins. Buffalo has the lowest allowed pass yards and they are 17th in average wins. This shows that the best team is not the best in each category so it must be a combination of these things that lead to winning football. Cleveland does have the lowest average wins and lowest average allowed rush yards so there could be a stronger correlation with losing and have a bad rush defense which is also supported in @fig-Win-association
+@tbl-O-D-Statistics includes the average team wins, the 32 NFL teams, average Offensive pass yards, average offensive rush yards, average defensive rush yards, and average defensive pass yards. The defensive statistics is the average amount of yards that the defense allowed so the lower the number the better the team is in that particular stat. The team with the most average wins in the patriots which makes sense as they had one of the biggest dynasties in NFL history. What is interesting about this is that they had the highest wins, but in every other category there was at least one team that performed better then them. The highest average offensive pass yards belonged to New Orleans which is 9th in the average wins statistic. The highest average rush yards belongs and lowest allowed rush yards belongs to Baltimore which is 5th in average wins. Buffalo has the lowest allowed pass yards and they are 17th in average wins. This shows that the best team is not the best in each category so it must be a combination of these things that lead to winning football. Cleveland does have the lowest average wins and lowest average allowed rush yards so there could be a stronger correlation with losing and have a bad rush defense which is also supported in @fig-Win-association.
 
 ```{r}
 #| label: tbl-O-D-Statistics 
@@ -273,9 +277,7 @@ ggplot(NFL_Clean) +
   
 ```
 
-
-Now it would be appropriate to provide a table showing statistics for wins by season. The  following table @tbl-win-stats gives seasons played from 1999-2022, minimum wins in a season, first quartile, median wins, third quartile, maximum wins in a season, simple arithmetic mean of wins, and standard deviation for each team. One thing to note is that Houston has played three seasons less than the other teams, as they joined the NFL in the 2002 season. Standard deviation represented by SD is the how much a team's amount of wins usually varies from season to season. 
-
+Now it would be appropriate to provide a table showing statistics for wins by season. The following table @tbl-win-stats gives seasons played from 1999-2022, minimum wins in a season, first quartile, median wins, third quartile, maximum wins in a season, simple arithmetic mean of wins, and standard deviation for each team. One thing to note is that Houston has played three seasons less than the other teams, as they joined the NFL in the 2002 season. Standard deviation represented by SD is the how much a team's amount of wins usually varies from season to season.
 
 ```{r}
 #| label: tbl-win-stats
@@ -363,7 +365,7 @@ ggplot(NFL_Clean_3) + ## Make plot
 
 ```
 
-@fig-efficiency-scatter-plot shows a scatter plot of each NFL team's efficiency by showing the relationship between a team's average points allowed per season (x-axis) vs average points scored per season (y-axis) from the 1999 NFL regular season to the 2022 NFL regular season. Each point on the graph represents an individual team average and differentiates the teams by team logo. The top left corner of the plot shows the most efficient teams. The bottom right corner of the plot shows the least efficient teams. The diagonal line in the middle of both plots demonstrates a efficiency threshold. If a team is above the line they are considered efficient. If a team is below the line they are considered inefficient. If a team is on the line they are neutral. The plot is broken up into two sides, one representing the AFC teams and the other representing the NFC teams. 
+@fig-efficiency-scatter-plot shows a scatter plot of each NFL team's efficiency by showing the relationship between a team's average points allowed per season (x-axis) vs average points scored per season (y-axis) from the 1999 NFL regular season to the 2022 NFL regular season. Each point on the graph represents an individual team average and differentiates the teams by team logo, [@noauthor_nfl_nodate]. The top left corner of the plot shows the most efficient teams. The bottom right corner of the plot shows the least efficient teams. The diagonal line in the middle of both plots demonstrates a efficiency threshold. If a team is above the line they are considered efficient. If a team is below the line they are considered inefficient. If a team is on the line they are neutral. The plot is broken up into two sides, one representing the AFC teams and the other representing the NFC teams.
 
 ```{r}
 #| label: tbl-efficiency-AFC
@@ -413,12 +415,12 @@ AFC_table %>% ## Make table
 #Reviewed: 
 
 NFC_table <- NFL_Clean_3%>% ## Clean data
-  filter(Conf == 'NFC')%>% ### Choose necessary confrence
+  filter(Conf == 'NFC')%>% ### Choose necessary conference
   select(team, point_differential, wins, losses, logo)%>% ### Choose necessary variables
   mutate( ### round each numeric variable
-    point_differential = round(point_differential, digits = 4),
-    wins = round(wins, digits = 4),
-    losses = round(losses, digits = 4),
+    point_differential = round(point_differential, digits = 2),
+    wins = round(wins, digits = 2),
+    losses = round(losses, digits = 2),
     image = ""
   )%>%
   arrange(desc(wins)) %>% ### Arrange by win rate descending
@@ -434,7 +436,14 @@ NFC_table %>% ## Make table
   kable( ### Set format
     booktabs = TRUE,
     align = c("l", rep("c", 10)),
-    format = "latex"
+    format = "latex",
+    col.names = c( ### Set column names
+      "Team",
+      "Logo",
+      "Avg. Point Dif",
+      "Win Rate",
+      "Loss Rate"
+    )
   )%>%
   kable_paper()%>%
   column_spec(2, image = spec_image(path = NFC_table$logo, 50, 50)) ### Add images
@@ -442,7 +451,13 @@ NFC_table %>% ## Make table
 ```
 
 {{< pagebreak >}}
-#Code Appendix
-``` {r codeAppend, ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
+# Refrences
+::: {#refs}
+:::
+
+{{< pagebreak >}} 
+# Code Appendix
+
+```{r codeAppend, ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
 
 ```
