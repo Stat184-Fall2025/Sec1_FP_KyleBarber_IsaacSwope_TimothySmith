@@ -41,7 +41,7 @@ library(ggpubr)
 NFL_raw <- read.csv("nfl-team-statistics (1).csv")
 
 ```
-
+We chose to use the National Football Team Statistics data from data.scorenetwork.org. This data set was created by Ron Yurko and was published on May 24th, 2023. This data sets contains various team statistics from the 1999 regular season to the 2022 regular season for all 32 NFL teams. In this data set a case is an individual NFL team during a specific regular season from 1999 to 2022. This data was collected through the nflreadr package in r. The data contains two categorical variables, team and season. It also contains 54 quantitative variables including offensive passing stats, offensive rushing stats, defensive stats, wins, losses, and much more. This data was produced in a free to use csv file found on the data.scorenetwork.org website. The data met all of the FAIR requirements as it was easily finadable and accessible. Also, the data was interoperable as all the data was in a csv file. Lastly, it was reproducible as we were able to work with it in R studio. The data also met all CARE principles. The data can be used by anyone to benefit data analysis. The data is accessible by anyone and free to use. Also, the data is responsible and ethical as the data is accurate and up to date. 
 
 ```{r}
 #| label: Adding East, West, North and South Conferences
