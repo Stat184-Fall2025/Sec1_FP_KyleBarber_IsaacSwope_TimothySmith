@@ -14,6 +14,8 @@ format:
   pdf:
     geometry: margin=1in
     cap-location: top
+    fig-pos: H
+    tbl-pos: H
     
 ---
 
@@ -244,6 +246,9 @@ NFL_O_D %>%
 
 ## Team Wins from 1999-2022
 
+When people think of the best football team of all time, to many, the first thing to come to mind is wins. In this section we will look at a visualization and some statistics to build an understanding of team wins in the 21st century.
+
+First we have simple box plots @fig-team-wins showing every NFL team's total wins since from 1999-2022. The box plots are separated and colored so one can more easily compare within divisions and across the conferences. Note the thin white lines, which show how the wins are summed up by season. An interesting observation is that it seams as though teams with more wins were also more consistent across seasons as the distance between white lines does not vary as much as those in teams with less overall wins. This is a observed trend which can be made by looking at the figure, but it will not be shown to be statistically significant in this section, whether or not it truly is.
 
 ```{r, fig.width=8}
 #| label: fig-team-wins
@@ -252,7 +257,7 @@ NFL_O_D %>%
 
 #author: Isaac Swope
 
-
+#we need to sum and order by wins so we use fct_reorder and then .desc=TRUE to force descending order.
 ggplot(NFL_Clean) +
   aes(x = fct_reorder(team, wins, .fun=sum, .desc=TRUE), y = wins, fill = Conf) +
   geom_col(color = NA) +
@@ -264,6 +269,9 @@ ggplot(NFL_Clean) +
 ```
 
 
+Now it would be appropriate to provide a table showing statistics for wins by season. The  following table @tbl-win-stats gives seasons played from 1999-2022, minimum wins in a season, first quartile, median wins, third quartile, maximum wins in a season, simple arithmetic mean of wins, and standard deviation for each team. One thing to note is that Houston has played three seasons less than the other teams, as they joined the NFL in the 2002 season. Standard deviation represented by SD is the how much a team's amount of wins usually varies from season to season. 
+
+
 ```{r}
 #| label: tbl-win-stats
 #| tbl-cap: "Team Wins Statistics"
@@ -272,8 +280,8 @@ ggplot(NFL_Clean) +
 #author: Isaac Swope
 
 winsTable <- NFL_Clean %>%
-  group_by(team)%>%
-  summarize(
+  group_by(team)%>% #we want to group by team
+  summarize( # calculating the selected statistics
     Count=n(),
     Min = min(wins, na.rm = TRUE),
     Quartile_1 = quantile(wins, probs = 0.25, na.rm = TRUE),
@@ -286,11 +294,11 @@ winsTable <- NFL_Clean %>%
   mutate(
     across(
       .cols = where(is.numeric),
-      .fns = ~round(.x, digits = 2)
+      .fns = ~round(.x, digits = 2) #rounding to 2 decimal places
     )
   )
 
-names(winsTable) <- c(
+names(winsTable) <- c( #renaming columns
     "Team",
     "Seasons",
     "Minimum",
@@ -309,6 +317,7 @@ winsTable %>%
   )
 
 ```
+
 
 ## Team Efficiency
 
