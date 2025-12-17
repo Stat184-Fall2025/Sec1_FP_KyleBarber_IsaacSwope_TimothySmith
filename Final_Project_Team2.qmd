@@ -317,6 +317,7 @@ winsTable %>%
 #| fig-pos: "H"
 
 #Author: Kyle Barber
+#reviewer
 
 NFL_Clean_3 <- NFL_Clean %>% ## Wrangle data
   select(team, Conf, score_differential, points_scored,
@@ -340,9 +341,9 @@ ggplot(NFL_Clean_3) + ## Make plot
     x = "Points Allowed (per season)",
     y = "Points Scored (per season)"
   ) + ### Set x and y axis labels
-  geom_abline(slope = 1, intercept = 0) + ### Add effeciency line
+  geom_abline(slope = 1, intercept = 0) + ### Add efficiency line
   theme_minimal() +
-  facet_wrap(vars(Conf)) ### Separate plots by confrence
+  facet_wrap(vars(Conf)) ### Separate plots by conference
 
 ```
 
@@ -355,6 +356,7 @@ ggplot(NFL_Clean_3) + ## Make plot
 #| tbl-pos: "H"
 
 #Author: Kyle Barber
+#Reviewer
   
 AFC_table <- NFL_Clean_3%>% ## Clean data
   filter(Conf == 'AFC')%>% ### Choose necessary confrence
@@ -392,6 +394,7 @@ AFC_table %>% ## Make table
 #| tbl-pos: "H"
 
 #Author: Kyle Barber
+#Reviewer: 
 
 NFC_table <- NFL_Clean_3%>% ## Clean data
   filter(Conf == 'NFC')%>% ### Choose necessary confrence
