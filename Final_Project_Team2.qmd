@@ -113,7 +113,7 @@ ggplot(# Step 1: Create the first graph using ggplot and geom point with x as of
       color = Conf
     )#Step 2: Make the points size 1 and the transparency to be .2 ----
   ) +
-  geom_point(size = 1, alpha=0.2) +
+  geom_point(size = .6) +
   labs(#Step 3: add labels and title to the data visualization and create the colors for the points----
     x = "Offensive Pass Yards",
     y = "Wins",
@@ -138,7 +138,7 @@ ggplot(# Step 5: Repeat Step 1 but x is the total rush yards----
       color = Conf
     )#Step 6: repeat step 2 for the second plot ----
   ) +
-  geom_point(size=1, alpha=0.2) +
+  geom_point(size=.6) +
   labs(#Step 7: repeat step 3 for the second plot----
     x = "Offensive Run Yards",
     y = "Wins",
@@ -164,7 +164,7 @@ ggplot(#Step 9: Repeat step 1 but with x as the defensive allowed pass yards ---
       color = Conf
     )#Step 10: Repeat step 2 but for third plot----
   ) +
-  geom_point(size=1, alpha=0.2) +
+  geom_point(size=.6) +
   labs(#Step 11: repeat step 3 but for third plot----
     x = "Defensive Allowed Pass Yards",
     y = "Wins",
@@ -190,7 +190,7 @@ ggplot(#Step 13: repeat step 1 but x is the allowed rush yards----
       color = Conf
     )# Step 14: repeat step 2 but for fourth plot----
   ) +
-  geom_point(size=1, alpha=0.2) +
+  geom_point(size=.6) +
   labs(#Step 15: repeat step 3 but for fourth plot----
     x = "Defensive Allowed Run Yards",
     y = "Wins",
@@ -248,7 +248,10 @@ NFL_O_D <- NFL_Clean %>%
 NFL_O_D %>%
   kable(#Step 3: Create the table using the kable function----
     booktabs = TRUE,
-    align = c("l", rep("c",10)))
+    align = c("l", rep("c",10)),
+    digits = 2,
+    format.args = list(big.mark = ",")
+  )
 
 ```
 
