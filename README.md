@@ -11,21 +11,34 @@ point differential.
 
 ### Interesting Insight (Optional)
 
-This is optional but highly recommended. You'll include one interesting insight from your project as part of the README. This insight is most effective when you include a visual. Keep in mind that this visual must be included as an image file (e.g., JPG, PNG, etc.). You can export plots created with `{ggplot2}` by using the function `ggsave`.
+
+One insight that we have noticed is that it is much more important for teams to have a strong rush defense than a strong pass defense as a rush defensive has much more
+association with winning that a pass defense. In the Win Association Scatterplot the linear regression is a lot more negative for teams that allowed more rush yards
+than teams that allowed more pass yards.
+
 
 ## Data Sources and Acknowledgements
-
-Be sure to list where you got any data used within the project. Be sure to acknowledge any one whose work or elements you're drawing upon.
-
+Ho T, Carl S (2022). nflreadr: Download ‘nflverse’ Data. R package version 1.3.1, https://CRAN.R-project.org/package=nflreadr.
+We found our data on the SCORE Data collection website and the author of the page is Ron Yurko
 ## Current Plan
 
 See plan doc.
 
 ## Repo Structure
+Each document is displayed on the main page of our Repo with a simple organization structure
 
-Use this section to explain the structure of your repo. This should help visitors quickly figure out where they should look to find certain elements. Further, you can use this space to highlight and briefly explain important/key files in the repo.
-
+Important documents 
+Final_Project_Team2.pdf: This document contains our work displayed in an easy and readable way and contains our full analyis
+Final_Project_Team2.qmd: This document contains both our data analysis and our data visualizations and the code for both of them
+GroupProgressReport.pdf: This is our slideshow for our groups progres
+Plan For Final Project.pdf: This document contains our plans for our analysis to help the readers understand our though process and the steps in our work.
+Sec1_FP_KyleBarber_IsaacSwope_TimothySmith.Rproj: contains our entire R project that can be loaded and used in R together this also allows common pathing
+Project_Guidlines.md: Contains all of our provided instruction for our Repo
+nfl-team-statistics (1).csv: This our NFL data that we chose to analyze
 
 ## Authors
 
-Give information about who are the authors of the project and how people can get in touch if they have questions.
+To learn more about this project, please reach out to
+[Timothy Smith](mailto:Tms7477@psu.edu)
+[Isaac Swope](mailto:IFS5248@psu.edu)
+[Kyle Barber](mailto:KTB5440@psu.edu)
