@@ -324,17 +324,20 @@ winsTable %>%
 
 ```
 
-
 ## Team Efficiency
 
-
 ```{r}
-#| label: fig-effeciency-scatter-plot
-#| fig-cap: NFL Team Effeciency Scatter Plot
-#| fig-alt: "Scatter plot of NFL teams' points scored versus points allowed for AFC and NFC teams."
-NFL_Clean_3 <- NFL_Clean %>%
+#| label: fig-efficiency-scatter-plot
+#| fig-cap: "NFL Team Efficiency Scatter Plot"
+#| fig-alt: "Scatter plot of all NFL teams average points scored vs points allowed with effeciency line."
+#| fig-pos: "H"
+
+#Author: Kyle Barber
+#reviewer
+
+NFL_Clean_3 <- NFL_Clean %>% ## Wrangle data
   select(team, Conf, score_differential, points_scored,
-         points_allowed, wins, losses) %>%
+         points_allowed, wins, losses) %>% ### Choose necessary columns
   group_by(team, Conf) %>%
   summarise(
     points_scored = mean(points_scored),
@@ -343,86 +346,98 @@ NFL_Clean_3 <- NFL_Clean %>%
     losses = mean(losses),
     point_differential = mean(score_differential),
     .groups = "drop"
-  )
-NFL_Clean_3$logo <- paste0("Logos/", NFL_Clean_3$team, ".png")
+  ) ### Get the mean for each variable
+NFL_Clean_3$logo <- paste0("Logos/", NFL_Clean_3$team, ".png") ### Add logo column
 
-ggplot(NFL_Clean_3) +
-  aes(x = points_allowed, y = points_scored) +
-  geom_point(size = 0.1) +
-  geom_image(aes(image = logo)) +
+ggplot(NFL_Clean_3) + ## Make plot
+  aes(x = points_allowed, y = points_scored) + ### Set aesthetic
+  geom_point(size = 0.1) + ### Make scatter plot
+  geom_image(aes(image = logo)) + ### add in images
   labs(
     x = "Points Allowed (per season)",
     y = "Points Scored (per season)"
-  ) +
-  geom_abline(slope = 1, intercept = 0) +
+  ) + ### Set x and y axis labels
+  geom_abline(slope = 1, intercept = 0) + ### Add efficiency line
   theme_minimal() +
-  facet_wrap(vars(Conf))
+  facet_wrap(vars(Conf)) ### Separate plots by conference
 
 ```
 
-```{r}
-#| label: tbl-effeciency-scatter-plot-AFC
-#| tbl-cap: "AFC Effeciency tables"
+@fig-efficiency-scatter-plot shows a scatter plot of each NFL team's efficiency by showing the relationship between a team's average points allowed per season (x-axis) vs average points scored per season (y-axis) from the 1999 NFL regular season to the 2022 NFL regular season. Each point on the graph represents an individual team average and differentiates the teams by team logo. The top left corner of the plot shows the most efficient teams. The bottom right corner of the plot shows the least efficient teams. The diagonal line in the middle of both plots demonstrates a efficiency threshold. If a team is above the line they are considered efficient. If a team is below the line they are considered inefficient. If a team is on the line they are neutral. The plot is broken up into two sides, one representing the AFC teams and the other representing the NFC teams. 
 
-AFC_table <- NFL_Clean_3%>%
-  filter(Conf == 'AFC')%>%
-  select(team, point_differential, wins, losses, logo)%>%
+```{r}
+#| label: tbl-efficiency-AFC
+#| tbl-cap: "AFC Efficiency Table"
+#| tbl-alt: "Data table showing all AFC team's logo, average point differential, win rate, and loss rate."
+#| tbl-pos: "H"
+
+#Author: Kyle Barber
+#Reviewer
+  
+AFC_table <- NFL_Clean_3%>% ## Clean data
+  filter(Conf == 'AFC')%>% ### Choose necessary confrence
+  select(team, point_differential, wins, losses, logo)%>% ### Choose necessary variables
   mutate(
     point_differential = round(point_differential, digits = 4),
     wins = round(wins, digits = 4),
     losses = round(losses, digits = 4),
     image = ""
-  )%>%
-  arrange(desc(wins)) %>%
-  rename(
+  )%>% ### Round all numeric variables
+  arrange(desc(wins)) %>% ### Arrange by descending win rate
+  rename( ### Rename variables
     Team = team,
     `Average Point Differential` = point_differential,
     `Win Rate` = wins,
     `Loss Rate` = losses
   )
 
-AFC_table %>%
-  select(Team, image, `Average Point Differential`, `Win Rate`, `Loss Rate`) %>%
-  kable(
+AFC_table %>% ## Make table
+  select(Team, image, `Average Point Differential`, `Win Rate`, `Loss Rate`) %>%### Choose necessary variables to include
+  kable( ### Set format
     booktabs = TRUE,
     align = c("l", rep("c", 10)),
     format = "latex"
   )%>%
   kable_paper()%>%
-  column_spec(2, image = spec_image(path = AFC_table$logo, 50, 50))
+  column_spec(2, image = spec_image(path = AFC_table$logo, 50, 50)) ### Add images
 
 ```
 
 ```{r}
-#| label: tbl-effeciency-scatter-plot-NFC
-#| tbl-cap: "NFC Effeciency tables"
+#| label: tbl-efficiency-NFC
+#| tbl-cap: "NFC Efficiency Table"
+#| tbl-alt: "Data table showing all NFC team's logo, average point differential, win rate, and loss rate."
+#| tbl-pos: "H"
 
-NFC_table <- NFL_Clean_3%>%
-  filter(Conf == 'NFC')%>%
-  select(team, point_differential, wins, losses, logo)%>%
-  mutate(
+#Author: Kyle Barber
+#Reviewer: 
+
+NFC_table <- NFL_Clean_3%>% ## Clean data
+  filter(Conf == 'NFC')%>% ### Choose necessary confrence
+  select(team, point_differential, wins, losses, logo)%>% ### Choose necessary variables
+  mutate( ### round each numeric variable
     point_differential = round(point_differential, digits = 4),
     wins = round(wins, digits = 4),
     losses = round(losses, digits = 4),
     image = ""
   )%>%
-  arrange(desc(wins)) %>%
-  rename(
+  arrange(desc(wins)) %>% ### Arrange by win rate descending
+  rename( ### Rename variables
     Team = team,
     `Average Point Differential` = point_differential,
     `Win Rate` = wins,
     `Loss Rate` = losses
   )
 
-NFC_table %>%
-  select(Team, image, `Average Point Differential`, `Win Rate`, `Loss Rate`) %>%
-  kable(
+NFC_table %>% ## Make table
+  select(Team, image, `Average Point Differential`, `Win Rate`, `Loss Rate`) %>% ### select necessary variables
+  kable( ### Set format
     booktabs = TRUE,
     align = c("l", rep("c", 10)),
     format = "latex"
   )%>%
   kable_paper()%>%
-  column_spec(2, image = spec_image(path = AFC_table$logo, 50, 50))
+  column_spec(2, image = spec_image(path = NFC_table$logo, 50, 50)) ### Add images
 
 ```
 
