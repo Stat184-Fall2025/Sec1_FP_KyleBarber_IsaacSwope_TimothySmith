@@ -252,11 +252,11 @@ NFL_O_D %>%
 
 When people think of the best football team of all time, to many, the first thing to come to mind is wins. In this section we will look at a visualization and some statistics to build an understanding of team wins in the 21st century.
 
-First we have simple box plots @fig-team-wins showing every NFL team's total wins since from 1999-2022. The box plots are separated and colored so one can more easily compare within divisions and across the conferences. Note the thin white lines, which show how the wins are summed up by season. An interesting observation is that it seams as though teams with more wins were also more consistent across seasons as the distance between white lines does not vary as much as those in teams with less overall wins. This is a observed trend which can be made by looking at the figure, but it will not be shown to be statistically significant in this section, whether or not it truly is.
+First we have simple bar charts @fig-team-wins showing every NFL team's total wins since from 1999-2022. The bar charts are separated and colored so one can more easily compare within divisions and across the conferences. Note the thin white lines, which show how the wins are summed up by season. An interesting observation is that it seams as though teams with more wins were also more consistent across seasons as the distance between white lines does not vary as much as those in teams with less overall wins. This is a observed trend which can be made by looking at the figure, but it will not be shown to be statistically significant in this section, whether or not it truly is.
 
 ```{r, fig.width=8}
 #| label: fig-team-wins
-#| fig-cap: "Boxplots of Team Wins"
+#| fig-cap: "Barcharts of Team Wins"
 #| fig-alt: "Grid of four barcharts showing total team wins separated by division"
 
 #author: Isaac Swope
