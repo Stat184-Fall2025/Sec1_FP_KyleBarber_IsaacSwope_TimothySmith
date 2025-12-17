@@ -338,7 +338,7 @@ winsTable %>%
 #| fig-pos: "H"
 
 #Author: Kyle Barber
-#reviewed: 
+#reviewed: Timothy Smith
 
 NFL_Clean_3 <- NFL_Clean %>% ## Wrangle data
   select(team, Conf, score_differential, points_scored,
@@ -377,7 +377,7 @@ ggplot(NFL_Clean_3) + ## Make plot
 #| tbl-pos: "H"
 
 #Author: Kyle Barber
-#Reviewed: 
+#Reviewed: Timothy Smith
   
 AFC_table <- NFL_Clean_3%>% ## Clean data
   filter(Conf == 'AFC')%>% ### Choose necessary confrence
@@ -415,7 +415,7 @@ AFC_table %>% ## Make table
 #| tbl-pos: "H"
 
 #Author: Kyle Barber
-#Reviewed: 
+#Reviewed: Timothy Smith
 
 NFC_table <- NFL_Clean_3%>% ## Clean data
   filter(Conf == 'NFC')%>% ### Choose necessary conference
