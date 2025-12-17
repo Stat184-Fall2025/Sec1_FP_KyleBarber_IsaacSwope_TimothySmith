@@ -385,8 +385,6 @@ AFC_table %>% ## Make table
 
 ```
 
-@tbl-efficiency-AFC shows a data table where the case is an individual AFC team. The variable include team, logo, average point differential, win rate and loss rate. All variables and statistics were calculated from the 1999 NFL regular season to the 2022 NFL regular season. Team name and image are the team indicators and average point differential, win rate and loss rate are the summarized statistics. 
-
 ```{r}
 #| label: tbl-efficiency-NFC
 #| tbl-cap: "NFC Efficiency Table"
@@ -423,8 +421,6 @@ NFC_table %>% ## Make table
   column_spec(2, image = spec_image(path = NFC_table$logo, 50, 50)) ### Add images
 
 ```
-
-@tbl-efficiency-NFC shows a data table where the case is an individual NFC team. The variable include team, logo, average point differential, win rate and loss rate. All variables and statistics were calculated from the 1999 NFL regular season to the 2022 NFL regular season. Team and image are the team indicators and average point differential, win rate and loss rate are the summarized statistics. 
 
 {{< pagebreak >}}
 #Code Appendix
