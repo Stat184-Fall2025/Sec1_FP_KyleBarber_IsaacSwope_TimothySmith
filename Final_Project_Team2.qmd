@@ -99,6 +99,8 @@ In @fig-Win-association the y-axis has the wins that range from 0 to 16 and a li
 #| fig-alt: "Four scatter plots showing NFL data, with axes for wins and various yard metrics. Trend lines suggest correlations."
 
 #author: Timothy Smith
+#reviewed: Isaac Swope
+
 plot1<-NFL_Clean%>%
   group_by(Div)%>%
 ggplot(# Step 1: Create the first graph using ggplot and geom point with x as offense pass yards and y as wins with colors being conference----
@@ -217,6 +219,8 @@ ggplot(#Step 13: repeat step 1 but x is the allowed rush yards----
 #| tbl-cap: "NFL Offensive and Defensive Statistics"
 
 #author: Timothy Smith
+#reviewed: Isaac Swope
+
 NFL_O_D <- NFL_Clean %>%
   group_by(team)%>%
   summarize(#Step 1: Determine the average values of the 5 main statistics that I want to work on and arrange by the Average Team Wins----
@@ -256,6 +260,7 @@ First we have simple box plots @fig-team-wins showing every NFL team's total win
 #| fig-alt: "Grid of four barcharts showing total team wins separated by division"
 
 #author: Isaac Swope
+#reviewed: Kyle Barber
 
 #we need to sum and order by wins so we use fct_reorder and then .desc=TRUE to force descending order.
 ggplot(NFL_Clean) +
@@ -278,6 +283,7 @@ Now it would be appropriate to provide a table showing statistics for wins by se
 #| html-table-processing: none
 
 #author: Isaac Swope
+#reviewed: Timothy Smith
 
 winsTable <- NFL_Clean %>%
   group_by(team)%>% #we want to group by team
